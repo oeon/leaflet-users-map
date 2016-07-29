@@ -11,7 +11,7 @@
     <!-- Le styles -->
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Norican">
     <link type="text/css" rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
-    <link type="text/css" rel="stylesheet" href="assets/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
     <!--[if lte IE 8]><link type="text/css" rel="stylesheet" href="assets/leaflet/leaflet.ie.css" /><![endif]-->
     <link type="text/css" rel="stylesheet" href="assets/leaflet/plugins/leaflet.markercluster/MarkerCluster.css" />
     <link type="text/css" rel="stylesheet" href="assets/leaflet/plugins/leaflet.markercluster/MarkerCluster.Default.css" />
@@ -227,11 +227,12 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/leaflet/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
     <script type="text/javascript" src="assets/leaflet/plugins/leaflet.markercluster/leaflet.markercluster.js"></script>
+    <script src="https://open.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=ThMnEteOGrIng5q749hPjRRK0BS3oJwN"></script>
 
     <script type="text/javascript">
-      var map, newUser, users, mapquest, firstLoad;
+      var map, newUser, users, firstLoad;
 
       firstLoad = true;
 
@@ -239,16 +240,10 @@
       users = new L.MarkerClusterGroup({spiderfyOnMaxZoom: true, showCoverageOnHover: false, zoomToBoundsOnClick: true});
       newUser = new L.LayerGroup();
 
-      mapquest = new L.TileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
-        maxZoom: 18,
-        subdomains: ["otile1", "otile2", "otile3", "otile4"],
-        attribution: 'Basemap tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
-      });
-
       map = new L.Map('map', {
         center: new L.LatLng(39.90973623453719, -93.69140625),
         zoom: 3,
-        layers: [mapquest, users, newUser]
+        layers: [MQ.mapLayer(), users, newUser]
       });
 
       // GeoLocation Control
@@ -263,7 +258,7 @@
         div.innerHTML = '<a class="leaflet-control-geoloc" href="#" onclick="geoLocate(); return false;" title="My location"></a>';
         return div;
       };
-      
+
       map.addControl(geolocControl);
       map.addControl(new L.Control.Scale());
 
